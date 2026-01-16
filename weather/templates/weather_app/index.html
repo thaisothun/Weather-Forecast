@@ -1,0 +1,404 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather</title>
+    <link rel="stylesheet" href="{% static 'weather_app/css/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container-app">
+        <div class="container-left">
+            <a class="link" href="javascript:void(0);" onclick="showDiv1();"><div class="container-current-city">
+                <div class="wrapper-current-city">
+                    <div class="content">
+                        <div class="icon">
+                            <img src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" class="current_city">
+                        </div>
+                        <div class="temp">
+                            <h2>{{current_weather.temp}}&deg;C</h2>
+                            <h3>{{current_weather.weather}}</h3>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h3>{{current_weather.city}}, {{current_weather.country}}</h3>
+                    </div>
+                </div>
+            </div></a>
+            
+            <a class="link" href="javascript:void(0);" onclick="showDiv2();"><div class="container-current-city">
+                {% if current_weather_city1 %}
+                <div class="wrapper-current-city">
+                    <div class="content">
+                        <div class="icon">
+                            <img src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" class="current_city1">
+                        </div>
+                        <div class="temp">
+                            <h2>{{current_weather_city1.temp}}&deg;C</h2>
+                            <h3>{{current_weather_city1.weather}}</h3>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h3>{{current_weather_city1.city}}, {{current_weather_city1.country}}</h3>
+                    </div>
+                </div>
+                {% else %}
+                    <p>N/A</p>
+                {% endif %}
+            </div></a>
+
+            <a class="link" href="javascript:void(0);" onclick="showDiv3();"><div class="container-current-city">
+                {% if current_weather_city2 %}
+                <div class="wrapper-current-city">
+                    <div class="content">
+                        <div class="icon">
+                            <img src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" class="current_city2">
+                        </div>
+                        <div class="temp">
+                            <h2>{{current_weather_city2.temp}}&deg;C</h2>
+                            <h3>{{current_weather_city2.weather}}</h3>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h3>{{current_weather_city2.city}}, {{current_weather_city2.country}}</h3>
+                    </div>
+                </div>
+                {% else %}
+                    <p>N/A</p>
+                {% endif %}
+            </div></a>
+
+            <a class="link" href="javascript:void(0);" onclick="showDiv4();"><div class="container-current-city">
+                {% if current_weather_city3 %}
+                <div class="wrapper-current-city">
+                    <div class="content">
+                        <div class="icon">
+                            <img src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" class="current_city3">
+                        </div>
+                        <div class="temp">
+                            <h2>{{current_weather_city3.temp}}&deg;C</h2>
+                            <h3>{{current_weather_city3.weather}}</h3>
+                        </div>
+                    </div>
+                    <div class="">
+                        <h3>{{current_weather_city3.city}}, {{current_weather_city3.country}}</h3>
+                    </div>
+                </div>
+                {% else %}
+                    <p>N/A</p>
+                {% endif %}
+            </div></a>
+
+        </div>
+        
+        <div class="container-right-current-city" id="div-current-city" style="display: block; opacity: 1;">
+            <div class="container-video">
+                <img src="{% static 'weather_app/weather_bg/icon.jpg' %}" id="css-city" class="current_city" >
+                    
+                <div class="conteiner-weather">
+                    <div class="current">
+                        <img class="current_city" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" style="width: 200px;"> <span style="position: absolute; transform: translateY(130px)"> wind speed {{current_weather.wind_speed}} m/s</span> <span style="position: absolute; transform: translateY(160px);">sunrise at {{current_weather.sunrise}}</span style="position: absolute;"><span>sunset at {{current_weather.sunset}}</span>
+                        <p style="font-size:100px;">{{current_weather.temp}} &deg;C | <span style="font-size: 15px;">Min {{current_weather.temp_min}} &deg;C</span> <span style="font-size: 15px; position: absolute; transform: translateX(-83px) translateY(60px);">Max {{current_weather.temp_max}} &deg;C</span> </p>
+                        <p style="font-size: 40px;">{{current_weather.weather}} <span style="font-size: 20px;"> {{current_weather.weather_des}} </span></p>
+                        <p style="font-size: 30px;">{{current_weather.city}}</p>
+                    </div>
+                    
+                    <div class="forecast">
+                        {% for data in forecast_weather %}
+                        <div class="forecast-detail">
+                            <img class="forecast-city" style="width: 70px;" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content"><span style="font-size: 30px; position: absolute;">{{data.temp}} &deg;C</span>
+                            <p>{{data.date}}</p>
+                            <p>Weather : <span class="forecast-weather">{{data.weather}}</span> </p>
+                            <p>Description : {{data.weather_des}} </p>
+                            <p>Max Temp : {{data.temp_max}}  &deg;C</p>
+                            <p>Min Temp : {{data.temp_min}}  &deg;C</p>
+                            <p>Wind Speed : {{data.wind_speed}} m/s </p>
+                            
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+            </div>
+            
+            
+        </div>
+
+        <div class="container-right-city1" id="div-city1" style="display: none; opacity: 0;">
+            {% if current_weather_city1 %}
+            <div class="container-video">
+                <img src="{% static 'weather_app/weather_bg/icon.jpg' %}" id="css-city" class="current_city1" >
+                <div class="conteiner-weather">
+                    <div class="current">
+                        <img class="current_city1" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" style="width: 200px;"> <span style="position: absolute; transform: translateY(130px)"> wind speed {{current_weather_city1.wind_speed}} m/s</span> <span style="position: absolute; transform: translateY(160px);">sunrise at {{current_weather_city1.sunrise}}</span style="position: absolute;"><span>sunset at {{current_weather_city1.sunset}}</span>
+                        <p style="font-size:100px;">{{current_weather_city1.temp}} &deg;C | <span style="font-size: 15px;">Min {{current_weather_city1.temp_min}} &deg;C</span> <span style="font-size: 15px; position: absolute; transform: translateX(-83px) translateY(60px);">Max {{current_weather_city1.temp_max}} &deg;C</span> </p>
+                        <p style="font-size: 40px;">{{current_weather_city1.weather}} <span style="font-size: 20px;"> {{current_weather_city1.weather_des}} </span></p>
+                        <p style="font-size: 30px;">{{current_weather_city1.city}}</p>
+                    </div>
+                    
+                    <div class="forecast">
+                        {% for data in forecast_weather_city1 %}
+                        <div class="forecast-detail">
+                            <img class="forecast-city1" style="width: 70px;" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content"><span style="font-size: 30px; position: absolute;">{{data.temp}} &deg;C</span>
+                            <p>{{data.date}}</p>
+                            <p>Weather : <span class="forecast-weather1">{{data.weather}}</span> </p>
+                            <p>Description : {{data.weather_des}} </p>
+                            <p>Max Temp : {{data.temp_max}}  &deg;C</p>
+                            <p>Min Temp : {{data.temp_min}}  &deg;C</p>
+                            <p>Wind Speed : {{data.wind_speed}} m/s </p>
+                            
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+            </div>
+            {% else %}
+            <form method="POST" action="{% url 'home' %}">
+            {% csrf_token %} 
+                <img class="background" src="{% static 'weather_app/imgs/no_weather_bg.jpg' %}" alt="No weather data">
+                <div class="content1">
+                    <h1 style="font-size: 40px;">Please click get weather data and input search for city 1</h1>
+                    <button> Get Weather Data </button>
+                </div>
+            </form>
+            {% endif %}
+            
+        </div>
+
+        <div class="container-right-city2" id="div-city2" style="display: none; opacity: 0;">
+            {% if current_weather_city2 %}
+            <div class="container-video">
+                <img src="{% static 'weather_app/weather_bg/icon.jpg' %}" id="css-city" class="current_city2" >
+                <div class="conteiner-weather">
+                    <div class="current">
+                        <img class="current_city2" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" style="width: 200px;"> <span style="position: absolute; transform: translateY(130px)"> wind speed {{current_weather_city2.wind_speed}} m/s</span> <span style="position: absolute; transform: translateY(160px);">sunrise at {{current_weather_city2.sunrise}}</span style="position: absolute;"><span>sunset at {{current_weather_city2.sunset}}</span>
+                        <p style="font-size:100px;">{{current_weather_city2.temp}} &deg;C | <span style="font-size: 15px;">Min {{current_weather_city2.temp_min}} &deg;C</span> <span style="font-size: 15px; position: absolute; transform: translateX(-83px) translateY(60px);">Max {{current_weather_city2.temp_max}} &deg;C</span> </p>
+                        <p style="font-size: 40px;">{{current_weather_city2.weather}} <span style="font-size: 20px;"> {{current_weather_city2.weather_des}} </span></p>
+                        <p style="font-size: 30px;">{{current_weather_city2.city}}</p>
+                    </div>
+                    
+                    <div class="forecast">
+                        {% for data in forecast_weather_city2 %}
+                        <div class="forecast-detail">
+                            <img class="forecast-city2" style="width: 70px;" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content"><span style="font-size: 30px; position: absolute;">{{data.temp}} &deg;C</span>
+                            <p>{{data.date}}</p>
+                            <p>Weather : <span class="forecast-weather2">{{data.weather}}</span> </p>
+                            <p>Description : {{data.weather_des}} </p>
+                            <p>Max Temp : {{data.temp_max}}  &deg;C</p>
+                            <p>Min Temp : {{data.temp_min}}  &deg;C</p>
+                            <p>Wind Speed : {{data.wind_speed}} m/s </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                {% else %}
+                <form method="POST" action="{% url 'home' %}">
+                {% csrf_token %} 
+                <img class="background" src="{% static 'weather_app/imgs/no_weather_bg.jpg' %}" alt="No weather data">
+                <div class="content1">
+                    <h1 style="font-size: 40px;">Please click get weather data and input search for city 2</h1>
+                    <button> Get Weather Data </button>
+                </div>
+                </form>
+                {% endif %}
+            </div>    
+        </div>
+
+        <div class="container-right-city3" id="div-city3" style="display: none; opacity: 1; transition: 0.5s ease;">
+            {% if current_weather_city3 %}
+            <div class="container-video" style="position: absolute; top: 13px; z-index: -99; left: 315px; width: 83%; height: 97%; ">
+                <img src="{% static 'weather_app/weather_bg/icon.jpg' %}" id="css-city" class="current_city3" >
+                <div class="conteiner-weather">
+                    <div class="current">
+                        <img class="current_city3" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" style="width: 200px;"> <span style="position: absolute; transform: translateY(130px)"> wind speed {{current_weather_city3.wind_speed}} m/s</span> <span style="position: absolute; transform: translateY(160px);">sunrise at {{current_weather_city3.sunrise}}</span style="position: absolute;"><span>sunset at {{current_weather_city3.sunset}}</span>
+                        <p style="font-size:100px;">{{current_weather_city3.temp}} &deg;C | <span style="font-size: 15px;">Min {{current_weather_city3.temp_min}} &deg;C</span> <span style="font-size: 15px; position: absolute; transform: translateX(-83px) translateY(60px);">Max {{current_weather_city3.temp_max}} &deg;C</span> </p>
+                        <p style="font-size: 40px;">{{current_weather_city3.weather}} <span style="font-size: 20px;"> {{current_weather_city3.weather_des}} </span></p>
+                        <p style="font-size: 30px;">{{current_weather_city3.city}}</p>
+                    </div>
+                    
+                    <div class="forecast">
+                        {% for data in forecast_weather_city3 %}
+                        <div class="forecast-detail">
+                            <img class="forecast-city3" style="width: 70px;" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content"><span style="font-size: 30px; position: absolute;">{{data.temp}} &deg;C</span>
+                            <p>{{data.date}}</p>
+                            <p>Weather : <span class="forecast-weather3">{{data.weather}}</span> </p>
+                            <p>Description : {{data.weather_des}} </p>
+                            <p>Max Temp : {{data.temp_max}}  &deg;C</p>
+                            <p>Min Temp : {{data.temp_min}}  &deg;C</p>
+                            <p>Wind Speed : {{data.wind_speed}} m/s </p>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    
+                </div>
+                
+            </div>
+            {% else %}
+            
+            
+            <form method="POST" action="{% url 'home' %}">
+            {% csrf_token %}    
+            <div class="content2">
+                    <img style="display: block; position: absolute; z-index: -9999; position: absolute; width: 103.5%; height:100%; object-fit: fill;" src="{% static 'weather_app/imgs/no_weather_bg.jpg' %}" alt="No weather data">
+                    <div style="padding: 25% 30%; transform: translateX(19px);">
+                    <h1 style="font-size: 40px;">Please click get weather data and input search for city 3</h1>
+                    <button type="submit"> Get Weather Data </button>
+                    </div>
+                </div>
+            </form>
+            {% endif %}
+            </div>   
+        </div>
+
+        
+    </div>
+
+    <script type="text/javascript">
+        //Current city
+        const url_img = document.querySelectorAll('.current_city');
+        url_img.forEach(image => {
+            const url_img_src = image.src;
+            const url_img_new_src = url_img_src.replace("icon","{{current_weather.weather}}");
+            image.setAttribute('src', url_img_new_src);    
+        });
+        
+        const url_img_a = document.querySelectorAll('.forecast-city');
+        const text_weather = document.querySelectorAll('.forecast-weather');
+        const combine = [Array.from(url_img_a), Array.from(text_weather)]; 
+        for (let i = 0; i < 1; i++) {
+            for (let j=0; j < combine[i].length; j++) {    
+                const url_img_src = combine[0][j].getAttribute('src');
+                const weather = combine[1][j].textContent;
+                const url_img_new_src = url_img_src.replace("icon",weather);               
+                combine[0][j].setAttribute('src',url_img_new_src)
+                
+            };            
+        };
+        
+        // city1
+        const url_img1 = document.querySelectorAll('.current_city1');
+        if (url_img1.length>0){
+            url_img1.forEach(image => {
+                const url_img_src = image.src;
+                const url_img_new_src = url_img_src.replace("icon","{{current_weather_city1.weather}}");
+                image.setAttribute('src', url_img_new_src);
+                });
+
+            const url_img1_a = document.querySelectorAll('.forecast-city1');
+            const text_weather1 = document.querySelectorAll('.forecast-weather1');
+            const combine1 = [Array.from(url_img1_a), Array.from(text_weather1)]; 
+            for (let i = 0; i < 1; i++) {
+                for (let j=0; j < combine1[i].length; j++) {    
+                    const url_img_src = combine1[0][j].getAttribute('src');
+                    const weather = combine1[1][j].textContent;
+                    const url_img_new_src = url_img_src.replace("icon",weather);               
+                    combine1[0][j].setAttribute('src',url_img_new_src);
+                    console.log('city1');
+                };          
+            };
+        };
+
+        // city2
+        const url_img2 = document.querySelectorAll('.current_city2');
+        if (url_img2.length>0){
+            url_img2.forEach(image => {
+                const url_img_src = image.src;
+                const url_img_new_src = url_img_src.replace("icon","{{current_weather_city2.weather}}");
+                image.setAttribute('src', url_img_new_src);
+                });    
+            
+            const url_img2_a = document.querySelectorAll('.forecast-city2');
+            const text_weather2 = document.querySelectorAll('.forecast-weather2');
+            const combine2 = [Array.from(url_img2_a), Array.from(text_weather2)]; 
+            for (let i = 0; i < 1; i++) {
+                for (let j=0; j < combine2[i].length; j++) {
+                    const url_img_src = combine2[0][j].getAttribute('src');
+                    const weather = combine2[1][j].textContent;                
+                    const url_img_new_src = url_img_src.replace("icon",weather);              
+                    combine2[0][j].setAttribute('src',url_img_new_src);
+                    console.log('city2');
+                };       
+            };   
+        };
+        // city3
+        const url_img3 = document.querySelectorAll('.current_city3');
+        if (url_img3.length>0){
+            
+            url_img3.forEach(image => {
+                const url_img_src = image.src;
+                const url_img_new_src = url_img_src.replace("icon","{{current_weather_city3.weather}}");
+                image.setAttribute('src', url_img_new_src);
+                
+                });    
+
+            const url_img3_a = document.querySelectorAll('.forecast-city3');
+            const text_weather3 = document.querySelectorAll('.forecast-weather3');
+            const combine3 = [Array.from(url_img3_a), Array.from(text_weather3)];  
+            for (let i = 0; i < 1; i++) {
+                for (let j=0; j < combine3[i].length; j++) {
+                    const url_img_src = combine3[0][j].getAttribute('src');
+                    const weather = combine3[1][j].textContent;
+                    const url_img_new_src = url_img_src.replace("icon",weather);              
+                    combine3[0][j].setAttribute('src',url_img_new_src);
+                    console.log('city3');
+                };       
+            };  
+        };
+
+        // show and hide city
+        function showDiv1(){
+            x= document.getElementById('div-current-city');
+            x1= document.getElementById('div-city1');
+            x2= document.getElementById('div-city2');
+            x3= document.getElementById('div-city3');
+            x.style.display = 'block'; x.style.opacity = '1';            
+            x1.style.display = 'none'; x1.style.opacity = '0';
+            x2.style.display = 'none'; x2.style.opacity = '0';
+            x3.style.display = 'none'; x3.style.opacity = '0';
+
+        }    
+        
+        function showDiv2(){
+            x1= document.getElementById('div-city1');
+            x= document.getElementById('div-current-city');
+            x2= document.getElementById('div-city2');
+            x3= document.getElementById('div-city3');
+            x.style.display = 'none'; x.style.opacity = '0';
+            x1.style.display = 'block'; x1.style.opacity = '1';
+            x2.style.display = 'none'; x2.style.opacity = '0';
+            x3.style.display = 'none'; x3.style.opacity = '0';
+        }  
+
+        function showDiv3(){
+            x= document.getElementById('div-current-city');
+            x1= document.getElementById('div-city1');
+            x2= document.getElementById('div-city2');
+            x3= document.getElementById('div-city3');
+            x.style.display = 'none'; x.style.opacity = '0';
+            x1.style.display = 'none'; x1.style.opacity = '0';
+            x2.style.display = 'block'; x2.style.opacity = '1';
+            x3.style.display = 'none'; x3.style.opacity = '0';
+            
+        }  
+
+        function showDiv4(){
+            x= document.getElementById('div-current-city');
+            x1= document.getElementById('div-city1');
+            x2= document.getElementById('div-city2');
+            x3= document.getElementById('div-city3');
+            x.style.display = 'none'; x.style.opacity = '0';
+            x1.style.display = 'none'; x1.style.opacity = '0';
+            x2.style.display = 'none'; x2.style.opacity = '0';
+            x3.style.display = 'block'; x3.style.opacity = '1';
+            
+        }  
+    </script>
+
+</body>
+</html>

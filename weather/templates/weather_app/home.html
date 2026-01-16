@@ -1,0 +1,108 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Weather Current City</title>
+    <link rel="stylesheet" href="{% static 'weather_app/css/styles.css' %}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:ital,wght@0,300..800;1,300..800&display=swap" rel="stylesheet">
+</head>
+<body>    
+    
+    <div style="display: block; width: 100%; height: 948px; overflow: hidden;">
+        <img src="{% static 'weather_app/weather_bg/icon.jpg' %}" style="width: 100%; height: 100%; object-fit: cover; z-index: -99; position: absolute;" class="current_city">
+        <form method="POST" action="{% url 'current_city' %}" autocomplete="off">
+        {% csrf_token %}
+        <div class="current" style="display:block; padding: 10% 15%">
+            <img class="current_city" src="{% static 'weather_app/imgs/icon.png' %}" alt="Description of the image content" style="width: 200px;"> <span style="position: absolute; transform: translateY(130px)"> wind speed {{current_weather.wind_speed}} m/s</span> <span style="position: absolute; transform: translateY(160px);">sunrise at {{current_weather.sunrise}}</span style="position: absolute;"><span>sunset at {{current_weather.sunset}}</span>
+            <p style="font-size:100px;">{{current_weather.temp}} &deg;C | <span style="font-size: 15px;">Min {{current_weather.temp_min}} &deg;C</span> <span style="font-size: 15px; position: absolute; transform: translateX(-83px) translateY(60px);">Max {{current_weather.temp_max}} &deg;C</span> </p>
+            <p style="font-size: 40px;">{{current_weather.weather}} <span style="font-size: 20px;"> {{current_weather.weather_des}} </span></p>
+            <p style="font-size: 30px;">{{current_weather.city}}</p><br>
+            <div class="autocomplete"><input type="text" placeholder="Ciy 1" id="city1" name="city1">
+                <div id="autocomplete-wrapper1" class="autocomplete-wrapper">
+                    
+                </div>   
+            </div> <span>   </span>
+            <div class="autocomplete"><input type="text" placeholder="City 2" id="city2" name="city2">
+                <div id="autocomplete-wrapper2" class="autocomplete-wrapper">
+                    
+                </div> 
+            </div><span>   </span>
+            <div class="autocomplete"><input type="text" placeholder="City 3" id="city3" name="city3">
+                <div id="autocomplete-wrapper3" class="autocomplete-wrapper">
+                    
+                </div>
+            </div>    
+                
+                <br><br>
+            <button type="submit"> Get Weather </button>
+        </div>
+        </form>
+    </div>
+            
+<script type="text/javascript">
+    //Current city
+    const url_img = document.querySelectorAll('.current_city');
+    url_img.forEach(image => {
+        const url_img_src = image.src;
+        const url_img_new_src = url_img_src.replace("icon","{{current_weather.weather}}");
+        image.setAttribute('src', url_img_new_src);    
+    });
+    //droplist city1   
+    const input_city1 = document.getElementById('city1');
+    const input_city2 = document.getElementById('city2');
+    const input_city3 = document.getElementById('city3');
+    input_city1.addEventListener('input', ()=> {autoComplete(input_city1,"autocomplete-wrapper1")});
+    input_city2.addEventListener('input', ()=> {autoComplete(input_city2,"autocomplete-wrapper2")});
+    input_city3.addEventListener('input', ()=> {autoComplete(input_city3,"autocomplete-wrapper3")});
+    
+    async function autoComplete(city_text,html) {
+        removeHtml()
+        const reponse = await fetch('{% static "weather_app/data/states.json" %}');
+        const cities = await reponse.json();
+        filter_data = city_text.value.toLowerCase();
+        let drop_list_city1 = cities.filter(city => {
+            return city.name.toLowerCase().startsWith(filter_data)
+        }) 
+        if (filter_data.length === 0){
+            drop_list_city1 = [];    
+            };           
+        output_html(drop_list_city1,html,city_text);
+        
+        };
+    function clickCity(event,a) {
+        event.preventDefault();
+        const text = event.target;
+        const city = text.innerHTML.split(',')[0];
+        a.value = city
+        
+        removeHtml();
+    }    
+        function output_html(list, html, input){
+        const listEl = document.createElement('ul');
+        listEl.className = 'autocomplete-list';
+        listEl.id = 'autocomplete-list';
+        list.forEach(city =>{        
+            const linkEl = document.createElement('a');
+            linkEl.addEventListener('click',(event) =>{clickCity(event,input)})
+            const listItem = document.createElement('li');
+            listItem.innerHTML = city.name + ", " + city.country_name;
+            linkEl.appendChild(listItem);
+            listEl.appendChild(linkEl);
+            })
+        document.getElementById(html).appendChild(listEl);
+    }
+    
+    function removeHtml() {
+        const listEl = document.getElementById('autocomplete-list');
+        if (listEl){
+            listEl.remove();
+        }
+    }
+    
+</script>    
+</body>
+</html>
