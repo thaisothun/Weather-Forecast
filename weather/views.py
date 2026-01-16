@@ -44,7 +44,7 @@ def get_weather(city):
         return current_weather, forecast_weather
 
     else:
-        print('city not found')        
+        pass        
 
 def current_city(request):
     ip_address = requests.get('https://api.iplocate.io/json').json()
