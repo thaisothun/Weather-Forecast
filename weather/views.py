@@ -48,7 +48,7 @@ def get_weather(city):
 
 def current_city(request):
     ip_address = requests.get('https://api.iplocate.io/json').json()
-    location_url = f'https://iplocate.io/api/lookup/{ip_address['ip']}?apikey=444e70c687d6334254a9a997e1ccacab'
+    location_url = f"https://iplocate.io/api/lookup/{ip_address['ip']}?apikey=444e70c687d6334254a9a997e1ccacab"
     location = requests.get(location_url).json()
     current_city = location['city']
     city1 = request.POST.get('city1','NA')
