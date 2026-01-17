@@ -80,7 +80,7 @@ def current_city(request):
         'forecast_weather_city3': forecast_weather_city3,    
     }
 
-    return render(request,'weather_app\index.html', context)
+    return render(request,'weather_app/index.html', context)
 
 def home(request):
     ip_address = requests.get('https://api.iplocate.io/json').json()
@@ -93,4 +93,4 @@ def home(request):
         'forecast_weather': forecast_weather,
     }
 
-    return render(request,'weather_app\home.html', context)
+    return render(request,'weather_app/home.html', context)
