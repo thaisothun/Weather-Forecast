@@ -7,15 +7,9 @@ from ipware import get_client_ip
 
 # Create your views here.
 
-def get_weather(request,city):
-    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
-    if x_forwarded_for:
-        ip = x_forwarded_for.split(',')[0].strip()
-    else:
-        ip = request.META.get('REMOTE_ADDR')   
-        
-    ip_address = ip
-    location_url = f'https://iplocate.io/api/lookup/{ip_address}?apikey=444e70c687d6334254a9a997e1ccacab'
+def get_weather(city):
+    api_key = '0d1f871ccf6aae7ab1fa7fa87ae21a1a'
+    current_url = f'https://api.openweathermap.org/data/2.5/weather?q={city}&appid={api_key}&units=metric'
     current_data = requests.get(current_url).json()
     forecast_url = f'https://api.openweathermap.org/data/2.5/forecast?q={city}&units=metric&exclude=current,minutely,hourly,alerts&appid={api_key}'
     forecast_data = requests.get(forecast_url).json()
@@ -96,8 +90,14 @@ def current_city(request):
     return render(request,'weather_app/index.html', context)
 
 def home(request):
-    ip_address = requests.get('https://api.iplocate.io/json').json()
-    location_url = f"https://iplocate.io/api/lookup/{ip_address['ip']}?apikey=444e70c687d6334254a9a997e1ccacab"
+     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+        
+    ip_address = ip
+    location_url = f'https://iplocate.io/api/lookup/{ip_address}?apikey=444e70c687d6334254a9a997e1ccacab'
     location = requests.get(location_url).json()
     current_city = location['city']
     current_weather, forecast_weather = get_weather(city=current_city)
