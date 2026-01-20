@@ -48,8 +48,15 @@ def get_weather(city):
         pass        
 
 def current_city(request):
-    ip_address = get_client_ip(request)
-    location_url = f"https://iplocate.io/api/lookup/{ip_address['ip']}?apikey=444e70c687d6334254a9a997e1ccacab"
+    x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
+    if x_forwarded_for:
+        ip = x_forwarded_for.split(',')[0].strip()
+    else:
+        ip = request.META.get('REMOTE_ADDR')
+        print(ip)
+    
+    ip_address = ip
+    location_url = f'https://iplocate.io/api/lookup/{ip_address}?apikey=444e70c687d6334254a9a997e1ccacab'
     location = requests.get(location_url).json()
     current_city = location['city']
     city1 = request.POST.get('city1','NA')
