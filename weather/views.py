@@ -2,6 +2,7 @@ from django.shortcuts import render
 import requests
 import datetime
 import json
+from ipware import get_client_ip
 
 
 # Create your views here.
@@ -47,7 +48,7 @@ def get_weather(city):
         pass        
 
 def current_city(request):
-    ip_address = requests.get('https://api.iplocate.io/json').json()
+    ip_address = get_client_ip(request)
     location_url = f"https://iplocate.io/api/lookup/{ip_address['ip']}?apikey=444e70c687d6334254a9a997e1ccacab"
     location = requests.get(location_url).json()
     current_city = location['city']
