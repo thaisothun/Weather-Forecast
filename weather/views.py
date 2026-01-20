@@ -7,7 +7,7 @@ from ipware import get_client_ip
 
 # Create your views here.
 
-def get_weather(city):
+def get_weather(request,city):
     x_forwarded_for = request.META.get('HTTP_X_FORWARDED_FOR')
     if x_forwarded_for:
         ip = x_forwarded_for.split(',')[0].strip()
