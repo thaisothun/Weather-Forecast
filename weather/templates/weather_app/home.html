@@ -66,12 +66,13 @@
         filter_data = city_text.value.toLowerCase();
         let drop_list_city1 = cities.filter(city => {
             return city.name.toLowerCase().startsWith(filter_data)
-        }) 
+        }); 
         if (filter_data.length === 0){
-            drop_list_city1 = [];    
-            };           
-        output_html(drop_list_city1,html,city_text);
-        
+            drop_list_city1 = [];
+            removeHtml()    
+            }           
+        else{
+            output_html(drop_list_city1,html,city_text);}
         };
     function clickCity(event,a) {
         event.preventDefault();
